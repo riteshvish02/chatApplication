@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/profile.css">
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+</head>
+<body>
+    <div id="main" style="height: 100vh; width: 100vw; display: flex; overflow: hidden;">
+        <form id="forem" hidden action="/upload/status" method="post" enctype="multipart/form-data">
+            <input id="fileinp" type="file" name="file">
+        </form>
+        <div id="profilepart" style="background-color: #2B2B2B; width: 27vw; height: 100%; position: relative;">
+            <div id="status" style=" top: 0; height:10vh; width: 100%;">
+               <div id="img">
+                  <div id="data">
+                     <img src="<%=user.img%>" alt="">
+                  </div> 
+               </div>
+               <h3>Upload status</h3> 
+               
+              <div style="width: 40%; height: fit-content;  padding-left: 3vh; position: relative; " id="lefticon">
+               <i style="color: #fff;" id="statusupload" class="ri-gallery-upload-line"></i>
+               <a style=" text-decoration: none; color: #fff;" href="/chat"> 
+                 <i style="color: #fff;" class="ri-corner-up-left-double-fill"></i>   
+               </a>
+              </div>
+            </div>
+             <div id="usersstatus" class="px-1  w-full " style="height: 90vh; position: relative; overflow: scroll; background-color: #111B21;">
+                <h2 style="padding-left: 5vh; padding-top: 2vh; padding-bottom: 2vh;">Recent updates</h2>
+
+                  <%if(users.length > 0){%>
+                       <%users.forEach(function(singleuser){%>
+                        <%if(singleuser.status.length > 0){%>
+                           <a style="text-decoration: none;" href="/getstatus/<%=singleuser._id%>">
+                              <div id="status" style=" top: 0; height:10vh; width: 100%;">
+                                 <div id="img">
+                                    <div id="data">
+                                       <img src="<%=singleuser.img%>" alt="">
+                                    </div> 
+                                 </div>
+                                 
+                                    <%if(singleuser.username == user.username){%>
+                                       <h3>you</h3>
+                                    <%}else{%>
+                                       <h3><%=singleuser.username%></h3>
+                                   <% }%>
+                              </div>
+                           </a>
+                        <%}%>
+                        
+                       <%})%>
+                  <%}%>
+                 
+                 
+                  
+              
+            </div>
+        </div>
+        <div id="statussection" style="width: 73vw; height: 100%; position: relative;  z-index: 99999999;">
+          <img src="/images/someextra/Screenshot 2024-02-22 004331.png" alt="">
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  
+    <script>
+       var swiper = new Swiper(".mySwiper", {
+      pagination: {
+        el: ".swiper-pagination",
+        type: "progressbar",
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+    });
+
+      var fileinp =   document.querySelector("#fileinp")
+      var forem = document.querySelector("#forem")
+      document.querySelector("#statusupload").addEventListener("click",function(){
+        fileinp.click();
+      })
+      fileinp.addEventListener("change",function(){
+        forem.submit()
+      })
+    </script>
+</body>
+</html>

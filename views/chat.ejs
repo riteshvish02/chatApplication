@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/profile.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css"
+      rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="div" style="width: 100vw; height: 100vh; display: flex">
+      <div
+        id="dib"
+        style="width: 73vw; height: 100%; position: absolute; right: 0">
+        <img
+          style="
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+          "
+          src="/images/someextra/Screenshot 2024-02-22 004331.png"
+          alt="" />
+      </div>
+      <div
+        id="profilepart"
+        style="
+          background-color: #2b2b2b;
+          width: 27vw;
+          height: 100%;
+          position: relative;
+        ">
+        <div
+          id="search"
+          class="w-full bg-slate-300"
+          style="top: 0; height: 16vh">
+          <div class="bg-black" id="uparpart">
+            <div id="right">
+              <img
+                style="width: 100%; height: 100%"
+                src="<%=user.img%>"
+                alt="" />
+            </div>
+            <div id="left">
+              <a href="/status">
+                <script src="https://cdn.lordicon.com/lordicon.js"></script>
+                <lord-icon
+                  src="https://cdn.lordicon.com/mdfymwpd.json"
+                  trigger="hover"
+                  colors="outline:#202C33,primary:#AEBAC1"
+                  style="width: 15px; height: 15px">
+                </lord-icon>
+              </a>
+              <i id="group" onclick="joinGroup()" class="ri-group-2-fill"></i>
+              <i id="group" onclick="createNewGroup()" class="ri-add-fill"></i>
+              <script src="https://cdn.lordicon.com/lordicon.js"></script>
+              <lord-icon
+                src="https://cdn.lordicon.com/fdxqrdfe.json"
+                trigger="hover"
+                colors="outline:#202C33,primary:#AEBAC1"
+                style="width: 15px; height: 15px">
+              </lord-icon>
+              <script src="https://cdn.lordicon.com/lordicon.js"></script>
+              <lord-icon
+                src="https://cdn.lordicon.com/rsvfayfn.json"
+                trigger="hover"
+                colors="outline:#202C33,primary:#AEBAC1"
+                style="width: 15px; height: 15px">
+              </lord-icon>
+            </div>
+          </div>
+          <div id="lowerpart">
+            <input type="text" placeholder="Search or start a new chat" />
+            <script src="https://cdn.lordicon.com/lordicon.js"></script>
+            <lord-icon
+              src="https://cdn.lordicon.com/pflszboa.json"
+              trigger="hover"
+              colors="outline:#AEBAC1,primary:#AEBAC1"
+              style="width: 15px; height: 15px">
+            </lord-icon>
+          </div>
+        </div>
+        <div
+          id="users"
+          class="px-1 w-full"
+          style="
+            height: 84vh;
+            position: relative;
+            overflow: scroll;
+            background-color: #111b21;
+          ">
+          <div
+            id="profile"
+            style="cursor: pointer"
+            class="flex justify-center items-center rounded w-full h-10 overflow-hidden">
+            <div
+              id="image"
+              class="w-8 h-8 overflow-hidden rounded-full bg-slate-500">
+              <img src="<%=user.img%>" alt="" />
+            </div>
+            <div id="content" class="w-4/5 h-9">
+              <h2><%=user.username%></h2>
+              <h3>last message</h3>
+            </div>
+            <script src="https://cdn.lordicon.com/lordicon.js"></script>
+            <lord-icon
+              colors="outline:#202C33,primary:#fff"
+              src="https://cdn.lordicon.com/kthelypq.json"
+              trigger="hover"
+              style="
+                width: 15px;
+                height: 15px;
+                position: absolute;
+                right: 15%;
+                cursor: pointer;
+              ">
+            </lord-icon>
+          </div>
+        </div>
+      </div>
+      <div
+        id="chatsection"
+        style="
+          width: 73vw;
+          height: 100%;
+          position: relative;
+          z-index: 999999999999999999;
+        ">
+        <div
+          id="name"
+          class="currentChatUser w-full h-9"
+          style="background-color: #202c33; position: absolute; top: 0">
+          <div id="div">
+            <div id="image">
+              <img
+                style="width: 30px; height: 30px"
+                class="rounded-full"
+                id="currentChatUserImage"
+                src=""
+                alt="" />
+            </div>
+            <div id="data">
+              <h2 id="currentChatUserUsername">ritesh</h2>
+              <h3></h3>
+            </div>
+          </div>
+        </div>
+        <div id="chat" style="overflow-y: scroll"></div>
+        <div id="pop">
+          <h2><i class="ri-file-line"></i> Document</h2>
+          <h2><i class="ri-gallery-line"></i> Images or photos</h2>
+        </div>
+        <div id="sendmsg">
+          <div id="form">
+            <form id="imageform" hidden enctype="multipart/form-data">
+              <input
+                id="imageInput"
+                type="file"
+                name="image"
+                accept="image/*" />
+              <input id="formclick" type="submit" />
+            </form>
+            <i
+              id="button"
+              style="cursor: pointer"
+              class="ri-add-line popup"></i>
+            <textarea id="message" name="message"></textarea>
+            <i
+              id="sendchatbutton"
+              onclick="sendMessage()"
+              class="ri-send-plane-2-fill"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"
+      integrity="sha512-b94Z6431JyXY14iSXwgzeZurHHRNkLt9d6bAHt7BZT38eqV+GyngIi/tVye4jBKPYQ2lBdRs0glww4fmpuLRwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var currentChatUserId = null;
+      const sender = `<%=user.username%>`;
+      var socket = io();
+
+      // socket.on("sony", msg =>{
+      //     console.log(msg);
+      // })
+
+      socket.emit("join-room", "<%=user.username%>");
+      socket.on("newuserjoined", (msg) => {
+        // console.log(msg);
+        appendnewchat(msg.img, msg.username, msg.lastmessage);
+      });
+
+      function appendnewchat(img, username, message = "last message") {
+        if (document.querySelector(`#${username}`)) {
+          return;
+        }
+        let template = `
+        <div id="${username}" class="otheruser" style="cursor: pointer; position:relative; padding-left:0.8vh;"  onclick="setCurrentChat('${img}','${username}')" class="flex justify-center items-center rounded w-full h-10 overflow-hidden">
+                    <div id="image" class="w-8 h-8 overflow-hidden rounded-full bg-slate-500">
+                        <img src="${img}" alt="">
+                    </div>
+                    <div id="content" class="w-4/5  h-9">
+                        <h2>${username}</h2>
+                        <h3>${message}</h3>
+                    </div> 
+                    <lord-icon
+                       colors="outline:#202C33,primary:#fff"
+                        src="https://cdn.lordicon.com/kthelypq.json"
+                        trigger="hover"
+                        style="width:15px;height:15px;position: absolute; right: 14%; cursor: pointer; top:25%; ">
+                    </lord-icon>
+                </div>
+                `;
+
+        document.querySelector("#users").innerHTML += template;
+      }
+
+      function sendMessage() {
+        const msgValue = document.querySelector("#sendmsg #message").value;
+        // ye return krdega agar message empty string hai toh
+        if (!msgValue) {
+          return;
+        }
+        const template = `<div id="outgoingmsg">
+                    <h3>${msgValue}</h3>
+                </div>
+                `;
+
+        document.querySelector("#chat").innerHTML += template;
+
+        document.querySelector("#sendmsg #message").value = "";
+
+        let msgobj = {
+          msg: msgValue,
+          receiver: currentChatUserId,
+          sender: sender,
+        };
+
+        socket.emit("privateMessage", msgobj);
+      }
+
+      function putOutgoingMessage(msgValue) {
+        if (!msgValue) return;
+        const template = `<div id="outgoingmsg">
+                    <h3>${msgValue}</h3>
+                </div>`;
+
+        document.querySelector("#chat").innerHTML += template;
+      }
+
+      function putIncomingMessage(msg) {
+        if (!msg) {
+          return;
+        } else {
+          const template = ` <div id="incomingmsg">
+                    <h3>${msg}</h3>
+                </div>`;
+          document.querySelector("#chat").innerHTML += template;
+        }
+      }
+
+      function setCurrentChat(img, username) {
+        document
+          .querySelector("#currentChatUserImage")
+          .setAttribute("src", img);
+        document.querySelector("#currentChatUserUsername").textContent =
+          username;
+        document.querySelector("#chatsection").style.display = "block";
+        currentChatUserId = username;
+
+        socket.emit("getMessage", {
+          receiver: username,
+          sender: sender,
+        });
+      }
+
+      socket.on("recievedprivatemsg", (msg) => {
+        // if(msg.sender == currentChatUserId  ){
+        //     putIncomingMessage(msg.msg)
+        // }
+        putIncomingMessage(msg.msg);
+      });
+
+      socket.on("chatmessages", (allmessages) => {
+        document.querySelector("#chat").innerHTML = "";
+        // console.log(allmessages);
+        allmessages.forEach((singlemessage) => {
+          if (singlemessage.sender == sender) {
+            if (singlemessage.msg) {
+              putOutgoingMessage(singlemessage.msg);
+            }
+
+            if (singlemessage.filepicture) {
+              putOutgoingfile(singlemessage.filepicture);
+            }
+          } else {
+            if (singlemessage.msg) {
+              putIncomingMessage(singlemessage.msg);
+            }
+            if (singlemessage.filepicture) {
+              putincomingimg(singlemessage.filepicture);
+            }
+          }
+        });
+      });
+
+      function pop() {
+        var index = 0;
+        document.querySelector(".popup").addEventListener("click", function () {
+          if (index == 0) {
+            document.querySelector("#pop").style.display = "initial";
+            document.querySelector("#pop").style.bottom = "9vh";
+            index = 1;
+          } else {
+            document.querySelector("#pop").style.display = "none";
+            document.querySelector("#pop").style.bottom = "0vh";
+            // document.querySelector("#formclick").reset()
+            index = 0;
+          }
+        });
+      }
+      pop();
+
+      document
+        .querySelector("#pop h2,#pop h3")
+        .addEventListener("click", function () {
+          document.querySelector("#imageInput").click();
+        });
+
+      var fileInput = document.getElementById("imageInput");
+
+      document
+        .querySelector("#sendchatbutton")
+        .addEventListener("click", function () {
+          if (fileInput.files.length > 0) {
+            document.querySelector("#formclick").click();
+            document.querySelector("#pop").style.display = "none";
+            document.querySelector("#pop").style.bottom = "-100%";
+          }
+        });
+
+      //   // Check if a file is selected
+
+      document
+        .getElementById("imageform")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          if (fileInput.files.length > 0) {
+            const formData = new FormData(this);
+            axios
+              .post("/upload", formData)
+              .then((response) => {
+                console.log(
+                  "Image uploaded successfully:",
+                  response.data.filename
+                );
+
+                const clutter = `
+
+        <a style="text-decoration:none; color:transparent;" href="/viewimage/${response.data.filename}">
+          <div id="sendimage">
+                <div id="image">
+                <img id="myImage" src="/images/uploads/${response.data.filename}" alt="">
+                </div>
+              </div>
+          </a>
+      
+             
+         `;
+                document.querySelector("#chat").innerHTML += clutter;
+
+                var imgobj = {
+                  img: response.data.filename,
+                  receiver: currentChatUserId,
+                  sender: sender,
+                };
+                socket.emit("sendimg", imgobj);
+                document.getElementById("imageform").reset();
+                // Handle success
+              })
+              .catch((error) => {
+                console.error("Error uploading image:", error);
+                // Handle error
+              });
+          }
+        });
+
+      function putOutgoingfile(img) {
+        if (!img) return;
+        const template = `
+     <a style="text-decoration:none; color:transparent;" href="/viewimage/${img}">
+      <div  id="sendimage">
+                <div id="image">
+                <img id="myImage" src="/images/uploads/${img}" alt="">
+                </div>
+              </div>
+            </a>
+      `;
+
+        document.querySelector("#chat").innerHTML += template;
+      }
+
+      function putincomingimg(img) {
+        if (!img) {
+          return;
+        }
+        const clutter = `
+    <a style="text-decoration:none; color:transparent;" href="/viewimage/${img}">
+      <div  id="receiveimage">
+                <div id="image">
+                <img id="myImage" src="/images/uploads/${img}" alt="">
+                </div>
+      </div>
+    </a>
+         `;
+        document.querySelector("#chat").innerHTML += clutter;
+      }
+      //  socket.on("receiveimg",data=>{
+      //     // console.log(data);
+      //    putincomingimg(data.img)
+
+      // })
+
+      socket.on("recievedprivateimg", (msg) => {
+        // console.log(msg);
+        putincomingimg(msg.img);
+
+        // if(msg.sender == currentChatUserId  ){
+        //     putincomingimg(msg.img)
+        // }
+      });
+
+      function createNewGroup() {
+        const groupName = prompt("Enter group name");
+        if (!groupName) {
+          return;
+        }
+        /* groupName = insta */
+        socket.emit("create-new-group", {
+          sender,
+          groupName,
+        });
+      }
+
+      socket.on("group-created", (newGroup) => {
+        appendchat(newGroup.profileImage, newGroup.name);
+      });
+
+      function joinGroup() {
+        const groupName = prompt("enter group name to join");
+        socket.emit("join-group", {
+          groupName,
+          sender /* loggedInUser */,
+        });
+      }
+
+      socket.on("group-joined", (groupDetails) => {
+        appendchat(groupDetails.profileImage, groupDetails.name);
+      });
+
+      function appendchat(img, username, message = "last message") {
+        if (document.querySelector(`#${username}`)) {
+          return;
+        }
+        let template = `
+        <div id="${username}" class="otheruser"  style="cursor: pointer; position:relative; padding-left:0.8vh;""  onclick="setCurrentChat('${img}','${username}')" class="flex justify-center items-center rounded w-full h-10 overflow-hidden">
+                    <div id="image" class="w-8 h-8 overflow-hidden rounded-full bg-slate-500">
+                        <img  src="${img}" alt="">
+                    </div>
+                    <div id="content" class="w-4/5  h-9">
+                        <h2>${username}</h2>
+                        <h3>${message}</h3>
+                    </div> 
+                  <i id="group"  style="width:15px;height:15px;position: absolute; right: 14%; cursor: pointer; top:25%; color:#fff;"  class="ri-group-2-fill"></i>
+                </div>
+                `;
+
+        document.querySelector("#users").innerHTML += template;
+      }
+    </script>
+  </body>
+</html>

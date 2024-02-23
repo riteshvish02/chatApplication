@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/profile.css">
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+</head>
+<body>
+    <div id="main" style="height: 100vh; width: 100vw; display: flex;">
+        <div id="statussec" style="width: 100vw; height: 100%; position: relative; background: #000; z-index: 99999999;">
+          <div class="elems">
+              <div id="name" style="background-color: #000000cd;">
+               <img src="<%=user.img%>" alt="">
+               <h2 style="color: #fff;"><%=user.username%></h2>
+               <a style="text-decoration: none; color: #fff; margin-left: 70vh;" id="redir" href="/status">
+                <i class="ri-corner-up-left-double-fill"></i>
+               </a>
+               <div class="pg" style="width:0%; height: 3%; background: #fff; position: absolute; z-index: 999999999; bottom: 0%; left: 0;"></div>
+              </div>
+              <div class="userdets">
+                <div class="swiper mySwiper">
+                  <div class="swiper-wrapper">
+                    <%user.status.forEach(function(stat){%>
+                      <div style="background-color: #000;" class="swiper-slide">
+                           <%if(stat.img.endsWith(".jpg") ||stat.img.endsWith('.jpeg')||stat.img.endsWith('.PNG')|| stat.img.endsWith('.png')){%>
+                                   <!-- <video src=""></video> -->
+                                   <img style="object-fit: contain; object-position: center; width: 100%; height: 100%;" src="/images/uploads/<%=stat.img%>" alt="">
+                          <% }else{%>
+                            <video style="object-fit: contain; object-position: center; width: 100%; height: 100%;"  autoplay loop src="/images/uploads/<%=stat.img%>"></video>
+                          <%}%>
+                      </div>
+                    
+                    <%})%>
+                  </div>
+
+                  <script src="https://cdn.lordicon.com/lordicon.js"></script>
+                  <script src="https://cdn.lordicon.com/lordicon.js"></script>
+                  
+                 
+                   <div class="autoplay-progress">
+                    <svg style="opacity: 0;" viewBox="0 0 48 48">
+                      <circle cx="24" cy="24" r="20"></circle>
+                    </svg>
+                    <span style="opacity: 0;"></span>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+        
+        <lord-icon
+        class="prev"
+        colors="outline:#202C33,primary:#fff"
+        src="https://cdn.lordicon.com/rmkahxvq.json"
+        trigger="hover"
+        style="opacity: 0.5; width:30px;height:30px;position: absolute; top: 50%; z-index: 9999999999; transform: rotate(90deg); left: 21%;">
+    </lord-icon>
+
+    <lord-icon 
+        class="next"
+        colors="outline:#202C33,primary:#fff"
+        src="https://cdn.lordicon.com/dwoxxgps.json"
+        trigger="hover"
+        style="opacity: 0.5; width:30px;height:30px;position: absolute; top: 50%; z-index: 9999999999999; transform: rotate(90deg); right: 21%;">
+    </lord-icon>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  
+    <script>
+       const progressCircle = document.querySelector(".pg");
+    const progressContent = document.querySelector(".autoplay-progress span");
+    var swiper = new Swiper(".mySwiper", {
+      spaceBetween: 30,
+      centeredSlides: true,
+      autoplay: {
+        delay: 10000,
+        disableOnInteraction: false,
+        stopOnLastSlide: true,
+        waitForTransition: true 
+      },
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev"
+      },
+      on: {
+        autoplayTimeLeft(s, time, progress) {
+          const progressWidth = (1 - progress) * 100;
+
+          if (s.slides.length > 1) {
+                // progressCircle.style.setProperty("--progress", 1 - progress);
+                progressCircle.style.width = `${progressWidth}%`
+                progressContent.textContent = `${Math.ceil(time / 1000)}s`;
+                progressCircle.style.display = "block"; // Show progress SVG
+                progressContent.style.display = "block"; // Show progress span
+            } 
+
+          // progressCircle.style.setProperty("--progress", 1 - progress);
+          // progressContent.textContent = `${Math.ceil(time / 1000)}s`;
+
+        },
+        slideChange(swiper) {
+      if (swiper.isEnd) { // Check if it's the last slide
+        swiper.autoplay.stop(); // Stop autoplay
+        clearInterval(swiper.autoplay.timeout); // Stop timer
+      }
+     
+    }
+      }
+    });
+
+    const nextBtn = document.querySelector(".next");
+const prevBtn = document.querySelector(".prev");
+
+nextBtn.addEventListener("click", function () {
+  if (swiper.isEnd) {
+    progressCircle.style.opacity = "0";
+
+  }
+  // document.querySelector("")
+  swiper.slideNext();
+});
+
+prevBtn.addEventListener("click", function () {
+  if (swiper.isEnd) {
+    progressCircle.style.opacity = "0";
+    // document.querySelector("#redir"). 
+  }
+  swiper.slidePrev();
+});
+
+      var fileinp =   document.querySelector("#fileinp")
+      var forem = document.querySelector("#forem")
+      document.querySelector("#statusupload").addEventListener("click",function(){
+        fileinp.click();
+      })
+      fileinp.addEventListener("change",function(){
+        forem.submit()
+      })
+    </script>
+</body>
+</html>
